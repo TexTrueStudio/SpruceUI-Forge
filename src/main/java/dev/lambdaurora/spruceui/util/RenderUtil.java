@@ -64,16 +64,16 @@ public final class RenderUtil {
 
 		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 		bufferBuilder.vertex(x, bottom, 0)
-				.uv(0, bottom / 32.f + vOffset)
+				.overlay(0, (int) (bottom / 32.f + vOffset))
 				.color(red, green, blue, alpha).next();
 		bufferBuilder.vertex(right, bottom, 0)
-				.uv(right / 32.f, bottom / 32.f + vOffset)
+				.overlay((int) (right / 32.f), (int) (bottom / 32.f + vOffset))
 				.color(red, green, blue, alpha).next();
 		bufferBuilder.vertex(right, y, 0)
-				.uv(right / 32.f, y / 32.f + vOffset)
+				.overlay((int) (right / 32.f), (int) (y / 32.f + vOffset))
 				.color(red, green, blue, alpha).next();
 		bufferBuilder.vertex(x, y, 0)
-				.uv(0, y / 32.f + vOffset)
+				.overlay(0, (int) (y / 32.f + vOffset))
 				.color(red, green, blue, alpha).next();
 		tessellator.draw();
 	}
