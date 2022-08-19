@@ -10,10 +10,10 @@
 package dev.lambdaurora.spruceui.border;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tessellator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormats;
+//import com.mojang.blaze3d.vertex.BufferBuilder;
+//import com.mojang.blaze3d.vertex.Tessellator;
+//import com.mojang.blaze3d.vertex.VertexFormat;
+//import com.mojang.blaze3d.vertex.VertexFormats;
 import dev.lambdaurora.spruceui.util.ColorUtil;
 import dev.lambdaurora.spruceui.widget.SpruceWidget;
 import net.minecraft.client.render.*;
@@ -60,7 +60,7 @@ public final class SimpleBorder implements Border {
 		RenderSystem.disableTexture();
 
 		var tessellator = Tessellator.getInstance();
-		var buffer = tessellator.getBufferBuilder();
+		var buffer = tessellator.getBuffer();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 		buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 		int x = widget.getX();

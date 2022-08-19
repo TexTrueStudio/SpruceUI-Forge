@@ -11,9 +11,9 @@ package dev.lambdaurora.spruceui.widget.text;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.Tessellator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormats;
+//import com.mojang.blaze3d.vertex.Tessellator;
+//import com.mojang.blaze3d.vertex.VertexFormat;
+//import com.mojang.blaze3d.vertex.VertexFormats;
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.Tooltip;
 import dev.lambdaurora.spruceui.Tooltipable;
@@ -25,6 +25,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
@@ -98,7 +101,7 @@ public class SpruceTextFieldWidget extends AbstractSpruceTextInputWidget impleme
 		this.changedListener = (input) -> {
 		};
 		this.textPredicate = Objects::nonNull;
-		this.renderTextProvider = (input, firstCharacterIndex) -> OrderedText.method_30747(input, Style.EMPTY);
+		this.renderTextProvider = (input, firstCharacterIndex) -> OrderedText.styledForwardsVisitedString(input, Style.EMPTY);
 	}
 
 	@Override
@@ -470,7 +473,7 @@ public class SpruceTextFieldWidget extends AbstractSpruceTextInputWidget impleme
 		int y2 = lineY + this.client.textRenderer.fontHeight;
 
 		var tessellator = Tessellator.getInstance();
-		var buffer = tessellator.getBufferBuilder();
+		var buffer = tessellator.getBuffer();
 		RenderSystem.disableTexture();
 		RenderSystem.enableColorLogicOp();
 		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);

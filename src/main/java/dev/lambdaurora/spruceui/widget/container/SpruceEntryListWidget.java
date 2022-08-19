@@ -12,10 +12,10 @@ package dev.lambdaurora.spruceui.widget.container;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tessellator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormats;
+//import com.mojang.blaze3d.vertex.BufferBuilder;
+//import com.mojang.blaze3d.vertex.Tessellator;
+//import com.mojang.blaze3d.vertex.VertexFormat;
+//import com.mojang.blaze3d.vertex.VertexFormats;
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.background.Background;
 import dev.lambdaurora.spruceui.background.DirtTexturedBackground;
@@ -26,14 +26,16 @@ import dev.lambdaurora.spruceui.util.ScissorManager;
 import dev.lambdaurora.spruceui.widget.AbstractSpruceWidget;
 import dev.lambdaurora.spruceui.widget.WithBackground;
 import dev.lambdaurora.spruceui.widget.WithBorder;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+//import net.fabricmc.api.EnvType;
+//import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -341,11 +343,11 @@ public abstract class SpruceEntryListWidget<E extends SpruceEntryListWidget.Entr
 		ScissorManager.pop();
 
 		var tessellator = Tessellator.getInstance();
-		var buffer = tessellator.getBufferBuilder();
+		var buffer = tessellator.getBuffer();
 		// Render the transition thingy.
 		if (this.shouldRenderTransition()) {
 			RenderSystem.enableBlend();
-			RenderSystem.blendFuncSeparate(GlStateManager.class_4535.SRC_ALPHA, GlStateManager.class_4534.ONE_MINUS_SRC_ALPHA, GlStateManager.class_4535.ZERO, GlStateManager.class_4534.ONE);
+			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.ordinal(), GlStateManager.SrcFactor.ONE_MINUS_SRC_ALPHA.ordinal(), GlStateManager.SrcFactor.ZERO.ordinal(), GlStateManager.SrcFactor.ONE.ordinal());
 			RenderSystem.disableTexture();
 			RenderSystem.setShader(GameRenderer::getPositionColorShader);
 			buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -422,7 +424,7 @@ public abstract class SpruceEntryListWidget<E extends SpruceEntryListWidget.Entr
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	class Entries extends AbstractList<E> {
 		private final List<E> entries;
 

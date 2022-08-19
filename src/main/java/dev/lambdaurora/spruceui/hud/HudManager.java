@@ -38,7 +38,7 @@ public class HudManager {
 				hud.render(matrices, tickDelta);
 		}));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			if (!canRenderHuds(MinecraftClient))
+			if (!canRenderHuds(MinecraftClient.getInstance()))
 				return;
 			HUDS.forEach((id, hud) -> {
 				if (hud.isEnabled() && hud.isVisible() && hud.hasTicks())
