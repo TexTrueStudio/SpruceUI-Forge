@@ -1,15 +1,16 @@
 plugins {
-	id 'fabric-loom' version '0.12.+'
-	id 'io.github.juuxel.loom-quiltflower' version '1.7.+'
-	id 'org.quiltmc.quilt-mappings-on-loom' version '4.0.0'
-	id 'org.quiltmc.gradle.licenser' version '1.1.+'
+	//id 'fabric-loom' version '0.12.+'
+	//id 'io.github.juuxel.loom-quiltflower' version '1.7.+'
+	//id 'org.quiltmc.quilt-mappings-on-loom' version '4.0.0'
+	//id 'org.quiltmc.gradle.licenser' version '1.1.+'
 	id 'java-library'
 	id 'maven-publish'
+	id 'dev.architectury.loom' version '0.11.0-SNAPSHOT'
 }
 
-group = project.maven_group
+group = "${mod_id}"
 version = "${project.mod_version}+${getMCVersionString()}"
-archivesBaseName = project.archives_base_name
+archivesBaseName = "${mod_id}"
 
 // This field defines the Java version your mod target.
 def targetJavaVersion = 17
@@ -48,6 +49,13 @@ repositories {
 		name 'TerraformersMC'
 		url 'https://maven.terraformersmc.com/releases'
 	}
+	loom {
+		forge {
+			mixinConfigs = [
+					"${mod_id}.mixins.json"
+			]
+		}
+	}
 }
 
 configurations {
@@ -56,18 +64,20 @@ configurations {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings(loom.layered {
-		addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:${minecraft_version}+build.${quilt_mappings}:v2"))
-	})
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	//mappings(loom.layered {
+	//	addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:${minecraft_version}+build.${quilt_mappings}:v2"))
+	//})
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	//modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
 	modules.stream().map { fabricApi.module(it, project.fabric_api_version) }.forEach {
 		modImplementation it
 	}
 
-	modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu_version}") {
-		transitive = false
-	}
+	//modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu_version}") {
+	//	transitive = false
+	//}
 
 	libApi 'org.jetbrains:annotations:20.1.0'
 
@@ -91,7 +101,8 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
 	inputs.property 'version', project.version
 
-	filesMatching('fabric.mod.json') {
+	//filesMatching('fabric.mod.json') {
+	filesMatching("META-INF/mods.toml") {
 		expand 'version': project.version
 	}
 }
@@ -111,10 +122,10 @@ loom {
 	}
 }
 
-license {
-	rule file('HEADER')
-	include '**/*.java'
-}
+//license {
+//	rule file('HEADER')
+//	include '**/*.java'
+//}
 
 // configure the maven publication
 publishing {
@@ -135,25 +146,25 @@ publishing {
 			name 'BuildDirLocal'
 			url "$buildDir/repo"
 		}
-		maven {
-			name 'GithubPackages'
-			url 'https://maven.pkg.github.com/LambdAurora/SpruceUI'
-			credentials {
-				username = project.findProperty('gpr.user') ?: System.getenv('USERNAME')
-				password = project.findProperty('gpr.key') ?: System.getenv('TOKEN')
-			}
-		}
-
-		def spruceuiMaven = System.getenv('SPRUCEUI_MAVEN')
-		if (spruceuiMaven) {
-			maven {
-				name = 'SpruceUIMaven'
-				url = uri(spruceuiMaven)
-				credentials {
-					username = project.findProperty('gpr.user') ?: System.getenv('MAVEN_USERNAME')
-					password = project.findProperty('gpr.key') ?: System.getenv('MAVEN_PASSWORD')
-				}
-			}
-		}
+//		maven {
+//			name 'GithubPackages'
+//			url 'https://maven.pkg.github.com/LambdAurora/SpruceUI'
+//			credentials {
+//				username = project.findProperty('gpr.user') ?: System.getenv('USERNAME')
+//				password = project.findProperty('gpr.key') ?: System.getenv('TOKEN')
+//			}
+//		}
+//
+//		def spruceuiMaven = System.getenv('SPRUCEUI_MAVEN')
+//		if (spruceuiMaven) {
+//			maven {
+//				name = 'SpruceUIMaven'
+//				url = uri(spruceuiMaven)
+//				credentials {
+//					username = project.findProperty('gpr.user') ?: System.getenv('MAVEN_USERNAME')
+//					password = project.findProperty('gpr.key') ?: System.getenv('MAVEN_PASSWORD')
+//				}
+//			}
+//		}
 	}
 }
