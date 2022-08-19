@@ -21,7 +21,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: Artifacts
+          name: SpruceUI-Forge AutoBuild
           path: ./build/libs/
 
       # The USERNAME and PASSWORD need to correspond to the credentials environment variables used in
