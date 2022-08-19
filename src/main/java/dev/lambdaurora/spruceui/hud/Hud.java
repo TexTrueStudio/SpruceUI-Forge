@@ -13,7 +13,6 @@ import com.google.common.collect.ImmutableList;
 import dev.lambdaurora.spruceui.util.Identifiable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
@@ -100,7 +99,7 @@ public abstract class Hud extends DrawableHelper implements Identifiable {
 	 * @param tickDelta Progress for linearly interpolating between the previous and current game state.
 	 * @see #isEnabled()
 	 */
-	public void render(MatrixStack matrices, float tickDelta) {
+	public void render(net.minecraft.class_4587 matrices, float tickDelta) {
 		this.components.stream().filter(HudComponent::isEnabled).forEach(component -> component.render(matrices, tickDelta));
 	}
 
