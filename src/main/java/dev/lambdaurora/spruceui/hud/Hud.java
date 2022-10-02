@@ -100,8 +100,8 @@ public abstract class Hud extends DrawableHelper implements Identifiable {
 	 * @param tickDelta Progress for linearly interpolating between the previous and current game state.
 	 * @see #isEnabled()
 	 */
-	public void render(MatrixStack matricesl, float tickDelta) {
-		this.components.stream().filter(HudComponent::isEnabled).forEach(component -> component.render(matricesl, tickDelta));
+	public void render(MatrixStack matrices, float tickDelta) {
+		this.components.stream().filter(HudComponent::isEnabled).forEach(component -> component.render(matrices, tickDelta));
 	}
 
 	/**
