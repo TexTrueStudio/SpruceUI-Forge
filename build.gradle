@@ -1,13 +1,22 @@
 plugins {
-    id 'fabric-loom' version '0.6-SNAPSHOT'
+    //id 'fabric-loom' version '0.6-SNAPSHOT'
     id 'java-library'
     id 'maven-publish'
-    id 'org.cadixdev.licenser' version '0.5.0'
+    //id 'org.cadixdev.licenser' version '0.5.0'
+    id 'dev.architectury.loom' version '0.10.0.185'
 }
 
 group = project.maven_group
 version = "${project.mod_version}+${getMCVersionString()}"
 archivesBaseName = project.archives_base_name
+
+loom {
+    forge {
+        mixinConfigs = [
+                "${mod_id}.mixins.json"
+        ]
+    }
+}
 
 // This field defines the Java version your mod target.
 // The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too.
@@ -30,10 +39,6 @@ def getMCVersionString() {
 }
 
 sourceSets {
-    testmod {
-        compileClasspath += main.compileClasspath
-        runtimeClasspath += main.runtimeClasspath
-    }
 }
 
 minecraft {
@@ -45,10 +50,6 @@ repositories {
         name = "AperLambda"
         url = 'https://aperlambda.github.io/maven'
     }
-    maven {
-        name = 'TerraformersMC'
-        url = 'https://maven.terraformersmc.com/releases'
-    }
 }
 
 configurations {
@@ -58,14 +59,11 @@ configurations {
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    //modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     modules.stream().map { fabricApi.module(it, project.fabric_api_version) }.forEach {
         modImplementation it
-    }
-
-    modRuntime("com.terraformersmc:modmenu:${project.modmenu_version}") {
-        transitive = false
     }
 
     libApi "org.jetbrains:annotations:20.1.0"
@@ -73,9 +71,8 @@ dependencies {
         exclude group: 'com.google.code.gson'
         exclude group: 'com.google.guava'
     }
-    include "org.aperlambda:lambdajcommon:1.8.1"
+    //include "org.aperlambda:lambdajcommon:1.8.1"
 
-    testmodImplementation project(":")
 }
 
 java {
@@ -98,7 +95,7 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("fabric.mod.json") {
+    filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
 }
@@ -107,15 +104,6 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
-}
-
-runClient {
-    classpath(sourceSets.testmod.runtimeClasspath)
-}
-
-license {
-    header file('HEADER')
-    include '**/*.java'
 }
 
 // configure the maven publication
@@ -128,24 +116,6 @@ publishing {
             artifact(sourcesJar) {
                 builtBy remapSourcesJar
             }
-
-            pom {
-                name = "SpruceUI"
-                description = "A Fabric Minecraft API mod which adds some GUI utilities."
-            }
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                configurations.libApi.allDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                    dependencyNode.appendNode('scope', 'compile')
-                }
-            }
         }
     }
 
@@ -154,14 +124,6 @@ publishing {
         maven {
             name = "BuildDirLocal"
             url = "$buildDir/repo"
-        }
-        maven {
-            name = "GithubPackages"
-            url = uri("https://maven.pkg.github.com/LambdAurora/SpruceUI")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
         }
     }
 }
