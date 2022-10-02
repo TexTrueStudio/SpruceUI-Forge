@@ -3,7 +3,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     //id 'org.cadixdev.licenser' version '0.5.0'
-    id 'dev.architectury.loom' version '0.10.0.185'
+    id 'dev.architectury.loom' version '0.10.0-SNAPSHOT'
 }
 
 group = project.maven_group
