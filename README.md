@@ -9,6 +9,8 @@
     <a title="Mod loader: Forge" target="_blank"><img src="https://img.shields.io/badge/Modloader-Forge-blue?style=flat-square"></a>
 </p>
 
+THIS MOD IN DEV, IS UNSTABLE
+
 ## Build
 
 Just do `./gradlew build` and everything should build just fine!
