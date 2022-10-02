@@ -1,10 +1,6 @@
 pluginManagement {
 	repositories {
 		maven {
-			name 'Quilt'
-			url 'https://maven.quiltmc.org/repository/release'
-		}
-		maven {
 			name 'Fabric'
 			url 'https://maven.fabricmc.net/'
 		}
@@ -12,8 +8,11 @@ pluginManagement {
 			name 'Cotton'
 			url 'https://server.bbkr.space/artifactory/libs-release/'
 		}
+
+		maven { url "https://maven.architectury.dev/" }
+		maven { url "https://maven.minecraftforge.net/" }
 		gradlePluginPortal()
 	}
 }
 
-rootProject.name = 'spruceui'
+rootProject.name = 'SpruceUI-Forge'
