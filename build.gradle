@@ -15,7 +15,7 @@ archivesBaseName = project.archives_base_name
 loom {
 	forge {
 		mixinConfigs = [
-				"spruceui.mixins.json"
+				"${mod_id}.mixins.json"
 		]
 	}
 }
@@ -45,10 +45,7 @@ String getMCVersionString() {
 }
 
 sourceSets {
-	testmod {
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
+
 }
 
 repositories {
