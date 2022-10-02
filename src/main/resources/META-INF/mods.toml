@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "MIT"
+
+[[mods]]
+modId = "spruceui"
+version = "${version}"
+displayName = "SpruceUI-Forge port (Unofficial)"
+authors = "LambdAurora,TexTrue"
+description = '''
+Just a GUI library."
+'''
+logoFile = "icon.png"
+
+[[dependencies.spruceui]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.spruceui]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"

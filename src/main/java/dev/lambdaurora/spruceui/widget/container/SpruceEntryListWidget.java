@@ -341,7 +341,7 @@ public abstract class SpruceEntryListWidget<E extends SpruceEntryListWidget.Entr
 		// Render the transition thingy.
 		if (this.shouldRenderTransition()) {
 			RenderSystem.enableBlend();
-			RenderSystem.blendFuncSeparate(GlStateManager.class_4535.SRC_ALPHA, GlStateManager.class_4534.ONE_MINUS_SRC_ALPHA, GlStateManager.class_4535.ZERO, GlStateManager.class_4534.ONE);
+			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.ordinal(), GlStateManager.SrcFactor.ONE_MINUS_SRC_ALPHA.ordinal(), GlStateManager.SrcFactor.ZERO.ordinal(), GlStateManager.SrcFactor.ONE.ordinal());
 			RenderSystem.disableTexture();
 			RenderSystem.setShader(GameRenderer::getPositionColorShader);
 			buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
