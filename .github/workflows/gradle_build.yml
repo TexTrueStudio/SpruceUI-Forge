@@ -10,7 +10,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: 17
+          java-version: "17"
           distribution: 'temurin'
 
       - name: Build with Gradle
@@ -18,5 +18,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: SpruceUI-Forge AutoBuild
+          name: Artifact-Forge
           path: ./build/libs/

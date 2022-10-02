@@ -12,6 +12,14 @@ group = "${mod_id}"
 version = "${project.mod_version}+${getMCVersionString()}"
 archivesBaseName = "${mod_id}"
 
+loom {
+	forge {
+		mixinConfigs = [
+				"${mod_id}.mixins.json"
+		]
+	}
+}
+
 // This field defines the Java version your mod target.
 def targetJavaVersion = 17
 
@@ -37,25 +45,11 @@ String getMCVersionString() {
 }
 
 sourceSets {
-	testmod {
-		compileClasspath += sourceSets.main.compileClasspath
-		runtimeClasspath += sourceSets.main.runtimeClasspath
-	}
+
 }
 
 repositories {
 	mavenLocal()
-	//maven {
-	//	name 'TerraformersMC'
-	//	url 'https://maven.terraformersmc.com/releases'
-	//}
-	loom {
-		forge {
-			mixinConfigs = [
-					"${mod_id}.mixins.json"
-			]
-		}
-	}
 }
 
 configurations {
@@ -72,17 +66,11 @@ dependencies {
 	forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	//modules.stream().map { fabricApi.module(it, project.fabric_api_version) }.forEach {
+	//modules.stream().map { fabricApi.module(it, project.fabric_version) }.forEach {
 	//	modImplementation it
 	//}
 
-	//modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu_version}") {
-	//	transitive = false
-	//}
-
 	libApi 'org.jetbrains:annotations:20.1.0'
-
-	testmodImplementation sourceSets.main.output
 }
 
 java {
@@ -102,7 +90,6 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
 	inputs.property 'version', project.version
 
-	//filesMatching('fabric.mod.json') {
 	filesMatching("META-INF/mods.toml") {
 		expand 'version': project.version
 	}
@@ -118,7 +105,7 @@ loom {
 	runs {
 		testmodClient {
 			client()
-			source(sourceSets.testmod)
+
 		}
 	}
 }
@@ -128,11 +115,6 @@ publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
-
-			pom {
-				name = 'SpruceUI-Forge(Unofficial Port)'
-				description = 'A Minecraft mod API which adds some GUI utilities.'
-			}
 		}
 	}
 
@@ -141,26 +123,6 @@ publishing {
 		maven {
 			name 'BuildDirLocal'
 			url "$buildDir/repo"
-		}
-		maven {
-			name 'GithubPackages'
-			url ''
-			credentials {
-				username = project.findProperty('gpr.user') ?: System.getenv('USERNAME')
-				password = project.findProperty('gpr.key') ?: System.getenv('TOKEN')
-			}
-		}
-
-		def spruceuiMaven = System.getenv('SPRUCEUI_MAVEN')
-		if (spruceuiMaven) {
-			maven {
-				name = 'SpruceUIMaven'
-				url = uri(spruceuiMaven)
-				credentials {
-					username = project.findProperty('gpr.user') ?: System.getenv('MAVEN_USERNAME')
-					password = project.findProperty('gpr.key') ?: System.getenv('MAVEN_PASSWORD')
-				}
-			}
 		}
 	}
 }
