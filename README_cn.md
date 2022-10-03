@@ -9,17 +9,17 @@
     <a title="Mod loader: Forge" target="_blank"><img src="https://img.shields.io/badge/Modloader-Forge-blue?style=flat-square"></a>
 </p>
 
-## Build
+## 构建
 
-Just do `./gradlew build` and everything should build just fine!
+只需执行 `./gradlew build` 。
 
-## Use inside a mod
+## 在MOD内使用
 
-You can look at the [SpruceUI test mod](https://github.com/LambdAurora/SpruceUI/tree/1.16/src/testmod) for examples of use.
+You can look at the [SpruceUI-Forge Test Mod](https://github.com/LambdAurora/SpruceUI/tree/1.16/src/testmod) for examples of use.
 
-### Import inside a project
+### 在项目中导入
 
-Add this to your `build.gradle` in addition of the base Forge mod `build.gradle`:
+除了基本的 Forge mod `build.gradle` 之外，还可以把它添加到你的 `build.gradle` 中。
 
 ```groovy
 repositories {
@@ -37,10 +37,10 @@ dependencies {
 }
 ```
 
-And this to your `gradle.properties`:
+并将此加入你的 `gradle.properties` ：
 
 ```properties
 spruceui_version=mc1.16-v0.1.0
 ```
 
-It will JAR-in-JAR SpruceUI so users of your mod don't need to download it separately!
+它将JAR-in-JAR SpruceUI，这样你的mod的用户就不需要单独下载它了。
