@@ -15,7 +15,7 @@
 
 ## 在MOD内使用
 
-You can look at the [SpruceUI-Forge Test Mod](https://github.com/LambdAurora/SpruceUI/tree/1.16/src/testmod) for examples of use.
+你可以看一下 [SpruceUI-Forge 测试模组（目前不可用）](https://github.com/LambdAurora/SpruceUI/tree/1.16/src/testmod) 的使用实例。
 
 ### 在项目中导入
 
