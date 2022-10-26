@@ -21,22 +21,28 @@ You can look at the [SpruceUI test mod](https://github.com/LambdAurora/SpruceUI/
 
 ### Import inside a project (Unable)
 
-Add this to your `build.gradle` in addition of the base Fabric mod `build.gradle`:
+Add this to your `build.gradle` in addition of the base Forge mod `build.gradle`:
 
 ```groovy
 repositories {
     mavenLocal()
-    maven { url 'https://jitpack.io' }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 dependencies {
-    modImplementation "com.github.TexTrueStudio:SpruceUI-Forge:${project.spruceui_version}"
+    modImplementation "maven.modrinth:spruceui-forge:${project.spruceui_version}"
 }
 ```
 
 And this to your `gradle.properties`:
 
 ```properties
-spruceui_version=mc1.19-v0.1.0
+spruceui_version=mc1.19.x-v0.1.0
 ```
 
 It will JAR-in-JAR SpruceUI so users of your mod don't need to download it separately!
