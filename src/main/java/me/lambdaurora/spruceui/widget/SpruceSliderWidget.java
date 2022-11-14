@@ -13,7 +13,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.lambdaurora.spruceui.Position;
 import me.lambdaurora.spruceui.Tooltipable;
 import me.lambdaurora.spruceui.navigation.NavigationDirection;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+//import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -27,7 +28,7 @@ import java.util.function.Consumer;
  * Represents a slider widget.
  *
  * @author LambdAurora
- * @version 2.0.0
+ * @version 3.3.0
  * @since 1.0.0
  */
 public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements Tooltipable {
@@ -36,8 +37,9 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
     private final Consumer<SpruceSliderWidget> applyConsumer;
     private double multiplier;
     private String sign;
+    private boolean inUse = false;
 
-    public SpruceSliderWidget(Position position, int width, int height, @NotNull Text message, double value, @NotNull Consumer<SpruceSliderWidget> applyConsumer, double multiplier, String sign) {
+    public SpruceSliderWidget(Position position, int width, int height, Text message, double value, Consumer<SpruceSliderWidget> applyConsumer, double multiplier, String sign) {
         super(position, width, height, message);
         this.value = value;
         this.baseMessage = message;
@@ -47,7 +49,7 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
         this.updateMessage();
     }
 
-    public SpruceSliderWidget(Position position, int width, int height, @NotNull Text message, double progress, @NotNull Consumer<SpruceSliderWidget> applyConsumer) {
+    public SpruceSliderWidget(Position position, int width, int height, Text message, double progress, Consumer<SpruceSliderWidget> applyConsumer) {
         this(position, width, height, message, progress, applyConsumer, 100.0, "%");
     }
 
@@ -99,7 +101,7 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
      *
      * @return the base message of the slider
      */
-    public @NotNull Text getBaseMessage() {
+    public Text getBaseMessage() {
         return this.baseMessage;
     }
 
@@ -108,7 +110,7 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
      *
      * @param baseMessage the base message of the slider
      */
-    public void setBaseMessage(@NotNull Text baseMessage) {
+    public void setBaseMessage(Text baseMessage) {
         this.baseMessage = baseMessage;
     }
 
@@ -123,7 +125,7 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
     /* Navigation */
 
     @Override
-    public boolean onNavigation(@NotNull NavigationDirection direction, boolean tab) {
+    public boolean onNavigation(NavigationDirection direction, boolean tab) {
         if (direction.isHorizontal() && !tab) {
             if (direction.isLookingForward() && this.value < 1 || this.value > 0) {
                 this.setValue(this.getValue() + (direction.isLookingForward() ? (1 / this.multiplier) : -(1 / this.multiplier)));
@@ -138,16 +140,21 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
     @Override
     protected void onClick(double mouseX, double mouseY) {
         this.setValueFromMouse(mouseX);
+        this.inUse = true;
     }
 
     @Override
     protected void onRelease(double mouseX, double mouseY) {
-        this.playDownSound();
+        if (this.inUse) {
+            this.playDownSound();
+            this.inUse = false;
+        }
     }
 
     @Override
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
         this.setValueFromMouse(mouseX);
+        this.inUse = true;
     }
 
     private void setValueFromMouse(double mouseX) {
@@ -163,11 +170,16 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
 
     @Override
     protected void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.client.getTextureManager().bindTexture(AbstractButtonWidget.WIDGETS_LOCATION);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.client.getTextureManager().bindTexture(ClickableWidget.WIDGETS_TEXTURE);
+        RenderSystem.color4f(1.f, 1.f, 1.f, 1.f);
+        //RenderSystem.setShaderTexture(0, ClickableWidget.WIDGETS_TEXTURE);
         int vOffset = (this.isFocusedOrHovered() ? 2 : 1) * 20;
         this.drawTexture(matrices, this.getX() + (int) (this.value * (double) (this.getWidth() - 8)), this.getY(), 0, 46 + vOffset, 4, 20);
         this.drawTexture(matrices, this.getX() + (int) (this.value * (double) (this.getWidth() - 8)) + 4, this.getY(), 196, 46 + vOffset, 4, 20);
+
+        if (!this.isMouseHovered() && this.inUse) {
+            this.inUse = false;
+        }
 
         super.renderButton(matrices, mouseX, mouseY, delta);
     }
@@ -177,5 +189,15 @@ public class SpruceSliderWidget extends AbstractSpruceButtonWidget implements To
     @Override
     protected @NotNull Optional<Text> getNarrationMessage() {
         return Optional.of(new TranslatableText("gui.narrate.slider", this.getMessage()));
+    }
+
+    //@Override
+    protected Text getNarrationFocusedUsageMessage() {
+        return new TranslatableText("narration.slider.usage.focused");
+    }
+
+    //@Override
+    protected Text getNarrationHoveredUsageMessage() {
+        return new TranslatableText("narration.slider.usage.hovered");
     }
 }

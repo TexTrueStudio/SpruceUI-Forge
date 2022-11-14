@@ -14,7 +14,8 @@ import me.lambdaurora.spruceui.widget.AbstractSpruceButtonWidget;
 import me.lambdaurora.spruceui.widget.SpruceElement;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+//import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 2.0.0
  */
 @Environment(EnvType.CLIENT)
-public class VanillaButtonWrapper extends AbstractButtonWidget implements SpruceElement {
+public class VanillaButtonWrapper extends ClickableWidget implements SpruceElement {
     private final AbstractSpruceButtonWidget widget;
 
     public VanillaButtonWrapper(@NotNull AbstractSpruceButtonWidget widget) {

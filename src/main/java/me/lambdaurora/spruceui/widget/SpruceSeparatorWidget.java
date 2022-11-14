@@ -12,26 +12,22 @@ package me.lambdaurora.spruceui.widget;
 import me.lambdaurora.spruceui.Position;
 import me.lambdaurora.spruceui.Tooltip;
 import me.lambdaurora.spruceui.Tooltipable;
-import me.lambdaurora.spruceui.navigation.NavigationDirection;
 import me.lambdaurora.spruceui.util.ColorUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+//import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
  * Represents a separator element.
  *
  * @author LambdAurora
- * @version 2.0.0
+ * @version 3.3.0
  * @since 1.0.1
  */
 public class SpruceSeparatorWidget extends AbstractSpruceWidget implements Tooltipable {
@@ -58,7 +54,7 @@ public class SpruceSeparatorWidget extends AbstractSpruceWidget implements Toolt
      *
      * @return the title
      */
-    public @NotNull Optional<Text> getTitle() {
+    public Optional<Text> getTitle() {
         return Optional.ofNullable(this.title);
     }
 
@@ -68,9 +64,6 @@ public class SpruceSeparatorWidget extends AbstractSpruceWidget implements Toolt
      * @param title the title
      */
     public void setTitle(@Nullable Text title) {
-        if (!Objects.equals(title, this.title)) {
-            this.queueNarration(250);
-        }
         this.title = title;
     }
 
@@ -102,7 +95,7 @@ public class SpruceSeparatorWidget extends AbstractSpruceWidget implements Toolt
                 fill(matrices, this.getX(), this.getY() + 4, titleX - 5, this.getY() + 6, ColorUtil.TEXT_COLOR);
                 fill(matrices, titleX + titleWidth + 5, this.getY() + 4, this.getX() + this.getWidth(), this.getY() + 6, ColorUtil.TEXT_COLOR);
             }
-            DrawableHelper.drawTextWithShadow(matrices, this.client.textRenderer, this.title, titleX, this.getY(), ColorUtil.WHITE);
+            drawTextWithShadow(matrices, this.client.textRenderer, this.title, titleX, this.getY(), ColorUtil.WHITE);
         } else {
             fill(matrices, this.getX(), this.getY() + 4, this.getX() + this.getWidth(), this.getY() + 6, ColorUtil.TEXT_COLOR);
         }
@@ -114,35 +107,9 @@ public class SpruceSeparatorWidget extends AbstractSpruceWidget implements Toolt
 
     @Override
     protected @NotNull Optional<Text> getNarrationMessage() {
-        return this.getTitle().map(Text::asString)
+        return Optional.ofNullable(this.getTitle().map(Text::asString)
                 .filter(title -> !title.isEmpty())
-                .map(title -> new TranslatableText("spruceui.narrator.separator", title));
-    }
-
-    /**
-     * Represents a button wrapper for the option.
-     *
-     * @author LambdAurora
-     * @version 1.5.0
-     * @since 1.0.1
-     */
-    public static class ButtonWrapper extends AbstractButtonWidget {
-        private final SpruceSeparatorWidget widget;
-
-        public ButtonWrapper(@NotNull SpruceSeparatorWidget separator, int height) {
-            super(separator.getX(), separator.getY(), separator.getWidth(), height, separator.getTitle().orElse(LiteralText.EMPTY));
-            this.widget = separator;
-        }
-
-        @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            this.widget.getPosition().setRelativeY(this.y + this.height / 2 - 9 / 2);
-            this.widget.render(matrices, mouseX, mouseY, delta);
-        }
-
-        @Override
-        public boolean changeFocus(boolean down) {
-            return this.widget.onNavigation(down ? NavigationDirection.DOWN : NavigationDirection.UP, true);
-        }
+                .map(title -> new TranslatableText("spruceui.narrator.separator", title))
+                .orElse(null));
     }
 }
