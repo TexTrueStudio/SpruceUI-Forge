@@ -9,38 +9,6 @@
     <a title="Mod loader: Forge" target="_blank"><img src="https://img.shields.io/badge/Modloader-Forge-blue?style=flat-square"></a>
 </p>
 
-## Build
+[简体中文](README_cn.md)
 
-Just do `./gradlew build` and everything should build just fine!
-
-## Use inside a mod
-
-You can look at the [SpruceUI test mod](https://github.com/LambdAurora/SpruceUI/tree/1.16/src/testmod) for examples of use.
-
-### Import inside a project
-
-Add this to your `build.gradle` in addition of the base Forge mod `build.gradle`:
-
-```groovy
-repositories {
-    mavenLocal()
-    maven {
-        name = "AperLambda"
-        url = 'https://aperlambda.github.io/maven'
-    }
-    maven { url = "https://jitpack.io" }
-}
-
-dependencies {
-    modImplementation "com.github.TexTrueStudio:SpruceUI-Forge:${project.spruceui_version}"
-    include "com.github.TexTrueStudio:SpruceUI-Forge:${project.spruceui_version}"
-}
-```
-
-And this to your `gradle.properties`:
-
-```properties
-spruceui_version=mc1.16-v0.1.0
-```
-
-It will JAR-in-JAR SpruceUI so users of your mod don't need to download it separately!
+For more information, please go to the Wiki.
