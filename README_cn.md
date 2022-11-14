@@ -23,13 +23,21 @@
 
 除了基本的 Forge mod `build.gradle` 之外，还可以把它添加到你的 `build.gradle` 中：
 
+#### Architectury Loom：
+
 ```groovy
 repositories {
     mavenLocal()
-    maven { url 'https://jitpack.io' }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 dependencies {
-    modImplementation "com.github.TexTrueStudio:SpruceUI-Forge:${project.spruceui_version}"
+    modImplementation include("maven.modrinth:spruceui-forge:${project.spruceui_version}")
 }
 ```
 

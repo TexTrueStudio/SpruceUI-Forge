@@ -11,38 +11,4 @@
 
 [简体中文](README_cn.md)
 
-## Build
-
-Just do `./gradlew build` and everything should build just fine!
-
-## Use inside a mod (Unable)
-
-You can look at the [SpruceUI test mod](https://github.com/LambdAurora/SpruceUI/tree/1.16/src/testmod) for examples of use.
-
-### Import inside a project (Unable)
-
-Add this to your `build.gradle` in addition of the base Forge mod `build.gradle`:
-
-```groovy
-repositories {
-    mavenLocal()
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-}
-dependencies {
-    modImplementation "maven.modrinth:spruceui-forge:${project.spruceui_version}"
-}
-```
-
-And this to your `gradle.properties`:
-
-```properties
-spruceui_version=mc1.19.x-v0.1.0
-```
-
-It will JAR-in-JAR SpruceUI so users of your mod don't need to download it separately!
+For more information, please go to the [Wiki](https://github.com/TexTrueStudio/SpruceUI-Forge/wiki).
