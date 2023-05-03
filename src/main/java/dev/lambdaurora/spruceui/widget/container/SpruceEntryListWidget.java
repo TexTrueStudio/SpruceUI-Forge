@@ -16,6 +16,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 //import com.mojang.blaze3d.vertex.Tessellator;
 //import com.mojang.blaze3d.vertex.VertexFormat;
 //import com.mojang.blaze3d.vertex.VertexFormats;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tessellator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormats;
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.background.Background;
 import dev.lambdaurora.spruceui.background.DirtTexturedBackground;
@@ -343,11 +347,11 @@ public abstract class SpruceEntryListWidget<E extends SpruceEntryListWidget.Entr
 		ScissorManager.pop();
 
 		var tessellator = Tessellator.getInstance();
-		var buffer = tessellator.getBuffer();
+		var buffer = tessellator.getBufferBuilder();
 		// Render the transition thingy.
 		if (this.shouldRenderTransition()) {
 			RenderSystem.enableBlend();
-			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA.ordinal(), GlStateManager.SrcFactor.ONE_MINUS_SRC_ALPHA.ordinal(), GlStateManager.SrcFactor.ZERO.ordinal(), GlStateManager.SrcFactor.ONE.ordinal());
+			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.ordinal(), GlStateManager.SourceFactor.ONE_MINUS_SRC_ALPHA.ordinal(), GlStateManager.SourceFactor.ZERO.ordinal(), GlStateManager.SourceFactor.ONE.ordinal());
 			RenderSystem.disableTexture();
 			RenderSystem.setShader(GameRenderer::getPositionColorShader);
 			buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);

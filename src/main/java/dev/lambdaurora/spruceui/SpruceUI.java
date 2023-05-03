@@ -1,6 +1,8 @@
 package dev.lambdaurora.spruceui;
 
+import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -16,11 +18,12 @@ public class SpruceUI {
     public static Logger LOGGER = LogManager.getLogger("SpruceUI-Forge");
 
     public SpruceUI() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        EventBuses.registerModEventBus(MODID, modEventBus);
+        modEventBus.addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
 
-        ModLoadingContext.get()
-                .registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
+        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 
     }
 
@@ -28,13 +31,4 @@ public class SpruceUI {
     {
 
     }
-
-    public static Logger logger() {
-        if (LOGGER == null) {
-            LOGGER = LogManager.getLogger("SpruceUI-Forge");
-        }
-
-        return LOGGER;
-    }
-
 }

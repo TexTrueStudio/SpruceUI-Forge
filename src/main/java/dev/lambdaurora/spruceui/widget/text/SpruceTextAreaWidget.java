@@ -14,6 +14,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 //import com.mojang.blaze3d.vertex.Tessellator;
 //import com.mojang.blaze3d.vertex.VertexFormat;
 //import com.mojang.blaze3d.vertex.VertexFormats;
+import com.mojang.blaze3d.vertex.Tessellator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormats;
 import dev.lambdaurora.spruceui.Position;
 import dev.lambdaurora.spruceui.border.Border;
 import dev.lambdaurora.spruceui.navigation.NavigationDirection;
@@ -24,9 +27,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
@@ -515,7 +515,7 @@ public class SpruceTextAreaWidget extends AbstractSpruceTextInputWidget {
 		int y2 = lineY + this.textRenderer.fontHeight;
 
 		var tessellator = Tessellator.getInstance();
-		var buffer = tessellator.getBuffer();
+		var buffer = tessellator.getBufferBuilder();
 		RenderSystem.disableTexture();
 		RenderSystem.enableColorLogicOp();
 		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
