@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkConstants;
@@ -20,15 +21,14 @@ public class SpruceUI {
     public SpruceUI() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         EventBuses.registerModEventBus(MODID, modEventBus);
-        modEventBus.addListener(this::setup);
+        modEventBus.addListener(this::onInitializeClient);
         MinecraftForge.EVENT_BUS.register(this);
 
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
-
+    private void onInitializeClient(FMLClientSetupEvent event) {
+        LOGGER.info("SpruceUI is loaded!");
     }
 }
