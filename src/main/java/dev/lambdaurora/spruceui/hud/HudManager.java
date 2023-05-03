@@ -9,11 +9,11 @@
 
 package dev.lambdaurora.spruceui.hud;
 
+import dev.architectury.event.events.client.ClientGuiEvent;
+import dev.architectury.event.events.client.ClientTickEvent;
 import dev.lambdaurora.spruceui.event.OpenScreenCallback;
 import dev.lambdaurora.spruceui.event.ResolutionChangeCallback;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.fakefabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fakefabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -33,11 +33,11 @@ public class HudManager {
 	private static final Map<Identifier, Hud> HUDS = new Object2ObjectOpenHashMap<>();
 
 	public void initialize() {
-		HudRenderCallback.EVENT.register((matrices, tickDelta) -> HUDS.forEach((id, hud) -> {
+		ClientGuiEvent.RENDER_HUD.register((matrices, tickDelta) -> HUDS.forEach((id, hud) -> {
 			if (hud.isEnabled() && hud.isVisible())
 				hud.render(matrices, tickDelta);
 		}));
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+		ClientTickEvent.CLIENT_POST.register(client -> {
 			if (!canRenderHuds(client))
 				return;
 			HUDS.forEach((id, hud) -> {

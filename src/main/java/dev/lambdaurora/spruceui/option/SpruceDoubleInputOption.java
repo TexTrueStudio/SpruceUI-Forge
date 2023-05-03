@@ -48,9 +48,9 @@ public class SpruceDoubleInputOption extends SpruceOption {
 		textField.setRenderTextProvider((displayedText, offset) -> {
 			try {
 				Double.parseDouble(textField.getText());
-				return OrderedText.styled(Integer.parseInt(displayedText), Style.EMPTY);
+				return OrderedText.codepoint(Integer.parseInt(displayedText), Style.EMPTY);
 			} catch (NumberFormatException e) {
-				return OrderedText.styled(Integer.parseInt(displayedText), Style.EMPTY.withColor(Formatting.RED));
+				return OrderedText.codepoint(Integer.parseInt(displayedText), Style.EMPTY.withColor(Formatting.RED));
 			}
 		});
 		textField.setChangedListener(input -> {

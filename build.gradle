@@ -1,15 +1,12 @@
 plugins {
-	//id 'fabric-loom' version '0.11.+'
-	//id 'io.github.juuxel.loom-quiltflower' version '1.6.0'
-	//id 'org.quiltmc.quilt-mappings-on-loom' version '4.0.0'
-	//id 'org.quiltmc.gradle.licenser' version '1.1.+'
-	id 'dev.architectury.loom' version '0.12.0-SNAPSHOT'
+	id 'dev.architectury.loom' version '1.1-SNAPSHOT'
+	id 'io.github.juuxel.loom-quiltflower' version '1.+'
 	id 'java-library'
 	id 'maven-publish'
 }
 
 group = project.maven_group
-version = "${project.mod_version}+${getMCVersionString()}"
+version = "${project.mod_version}+${project.minecraft_version}"
 archivesBaseName = project.archives_base_name
 
 loom {
@@ -23,32 +20,9 @@ loom {
 // This field defines the Java version your mod target.
 def targetJavaVersion = 17
 
-Set<String> modules = [
-		'fabric-api-base',
-		'fabric-lifecycle-events-v1',
-		'fabric-rendering-v1',
-		'fabric-resource-loader-v0',
-		'fabric-screen-api-v1'
-]
-
-boolean isMCVersionNonRelease() {
-	return project.minecraft_version.matches('^\\d\\dw\\d\\d[a-z]$')
-			|| project.minecraft_version.matches('\\d+\\.\\d+-(pre|rc)(\\d+)')
-}
-
-String getMCVersionString() {
-	if (isMCVersionNonRelease()) {
-		return project.minecraft_version
-	}
-	def version = project.minecraft_version.split('\\.')
-	return version[0] + '.' + version[1]
-}
-
-sourceSets {
-
-}
 
 repositories {
+	maven { url 'https://maven.quiltmc.org/repository/release' }
 	mavenLocal()
 }
 
@@ -58,12 +32,10 @@ configurations {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+	mappings "org.quiltmc:quilt-mappings:${project.quilt_mappings}:intermediary-v2"
+	forge "net.minecraftforge:forge:${project.forge_version}"
 
-	modules.stream().map { fabricApi.module(it, project.fabric_api_version) }.forEach {
-		modImplementation it
-	}
+	modApi "dev.architectury:architectury-forge:${project.architectury_version}"
 
 	libApi 'org.jetbrains:annotations:20.1.0'
 
