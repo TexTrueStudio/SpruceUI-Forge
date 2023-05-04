@@ -5,12 +5,15 @@ license = "MIT"
 [[mods]]
 modId = "spruceui"
 version = "${version}"
-displayName = "SpruceUI-Forge port (Unofficial)"
-authors = "LambdAurora,TexTrue"
-description = '''
-Just a GUI library."
-'''
+displayName = "ObsidianUI"
+displayURL = "https://github.com/ThinkingStudios/SpruceUI-Forge"
+credits = "LambdAurora"
+authors = "TexTrue, ThinkingStudio"
 logoFile = "icon.png"
+description = '''
+SpruceUI Unofficial Forge port.
+Just a GUI library.
+'''
 
 [[dependencies.spruceui]]
 modId = "minecraft"
