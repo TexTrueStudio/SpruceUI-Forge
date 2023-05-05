@@ -37,7 +37,7 @@ public class HudManager {
 			if (hud.isEnabled() && hud.isVisible())
 				hud.render(matrices, tickDelta);
 		}));
-		ClientTickEvent.CLIENT_LEVEL_POST.register(client -> {
+		ClientTickEvent.CLIENT_POST.register(client -> {
 			if (!canRenderHuds(MinecraftClient.getInstance()))
 				return;
 			HUDS.forEach((id, hud) -> {
