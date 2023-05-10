@@ -34,7 +34,7 @@ dependencies {
 	mappings "org.quiltmc:quilt-mappings:${project.quilt_mappings}:intermediary-v2"
 	forge "net.minecraftforge:forge:${project.forge_version}"
 
-	modImplementation "com.github.PortingLab:ForgedAPI:1.19.2-forge-SNAPSHOT"
+	modImplementation "com.github.PortingLab:ForgedAPI:v0.1.0-1.19.2"
 
 	libApi 'org.jetbrains:annotations:20.1.0'
 }
